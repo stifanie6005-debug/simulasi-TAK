@@ -1,103 +1,144 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simulasi UAS - 2 Soal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulasi UTS Teori Akuntansi Keuangan</title>
 <style>
-  :root { color-scheme: light; }
-  body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; margin: 0; background: #f3f5f9; color: #1f2937; }
-  .wrap { max-width: 720px; margin: 28px auto; padding: 16px; }
-  .card { background: white; border-radius: 16px; padding: 22px; box-shadow: 0 5px 24px #17255412; margin-bottom: 16px; }
-  h1 { margin: 0 0 8px; font-size: 1.45rem; }
-  .muted { color: #64748b; }
-  .status { border-radius: 10px; padding: 12px; background: #ecfdf5; color: #166534; margin: 14px 0; }
-  .status.warn { background: #fff7ed; color: #9a3412; }
-  .q { padding: 16px 0; border-top: 1px solid #e5e7eb; }
-  label { display: block; padding: 8px 0; }
-  button { border: 0; border-radius: 10px; padding: 12px 18px; background: #2457d6; color: white; font-weight: 650; font-size: 1rem; }
-  button:disabled { opacity: .55; }
-  #result { font-weight: 650; margin-top: 12px; }
-  .small { font-size: .9rem; }
+:root{--ink:#172033;--muted:#667085;--blue:#2457d6;--red:#b42318;--line:#e5e7eb}
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7fb;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:760px;margin:34px auto;padding:0 16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 8px 26px rgba(16,24,40,.06)}
+h1{font-size:24px;margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 22px}
+.notice{background:#f8fafc;border:1px solid var(--line);padding:15px 17px;border-radius:10px;margin:18px 0}
+.notice ul{padding-left:20px;margin:8px 0 0;line-height:1.65}
+label{display:block;font-weight:600;margin:16px 0 7px}
+input,select{width:100%;padding:13px;border:1px solid #cfd4dc;border-radius:9px;font-size:16px;background:white}
+button{border:0;border-radius:9px;background:var(--blue);color:#fff;padding:14px 20px;font-size:16px;font-weight:700;width:100%;margin-top:22px;cursor:pointer}
+button:disabled{opacity:.5}
+.small{font-size:13px;color:var(--muted);line-height:1.5}
+.hidden{display:none}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}
+.pill{background:#eef2ff;color:#263e91;border-radius:30px;padding:9px 13px;font-weight:700;white-space:nowrap}
+.progress{height:8px;background:#e9edf5;border-radius:10px;overflow:hidden;margin:12px 0 22px}
+.bar{height:100%;width:0;background:var(--blue)}
+.qnum{font-size:13px;color:var(--muted);font-weight:700}
+.question{font-size:19px;line-height:1.45;font-weight:700;margin:10px 0 18px}
+.option{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:10px;padding:13px;margin:10px 0;cursor:pointer}
+.option input{width:auto;margin-top:3px}
+.actions{display:flex;gap:10px}
+.actions button{width:50%}
+.secondary{background:#e9edf5;color:#25324b}
+.warning{background:#fff4ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:12px;margin:14px 0;font-size:14px}
+.locked{background:#fff1f0;border:1px solid #fecdca;color:#b42318;padding:18px;border-radius:12px;margin-top:18px}
+footer{text-align:center;color:#98a2b3;font-size:12px;margin:18px}
+@media(max-width:520px){.card{padding:20px}.top{align-items:flex-start;flex-direction:column}h1{font-size:21px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <section class="card">
-    <h1>Simulasi UAS</h1>
-    <div class="muted">Demo sederhana — 2 soal pilihan ganda</div>
-    <div class="status" id="status" role="status">Status: halaman sedang aktif.</div>
-    <p><b>Perpindahan halaman terdeteksi:</b> <span id="count">0</span> kali</p>
-    <p class="small muted">Demo ini mencatat saat browser melaporkan halaman menjadi tersembunyi atau kehilangan fokus. Ini bukan sistem pengawas yang sempurna.</p>
-    <p><b>Waktu tersisa:</b> <span id="timer">05:00</span></p>
+  <section class="card" id="landing">
+    <h1>🔒 Masuk Ujian</h1>
+    <p class="sub">UTS Teori Akuntansi Keuangan</p>
+    <div class="notice">
+      <ul>
+        <li>Soal: 40 pilihan ganda, waktu 30 menit sesuai kelas yang dipilih.</li>
+        <li>Nama, NIM, dan kelas akan tercatat pada simulasi. Periksa kembali sebelum mulai.</li>
+        <li>Jangan pindah tab/jendela selama ujian. Simulasi akan mendeteksi halaman yang ditinggalkan.</li>
+        <li>Kalau terkunci: jangan keluar atau refresh, lapor ke pengawas/dosen.</li>
+      </ul>
+    </div>
+    <label for="nama">Nama Lengkap</label>
+    <input id="nama" placeholder="Masukkan nama lengkap" autocomplete="name">
+    <label for="nim">NIM</label>
+    <input id="nim" placeholder="Masukkan NIM">
+    <label for="kelas">Kelas</label>
+    <select id="kelas">
+      <option value="">Pilih kelas</option>
+      <option>Kelas A</option><option>Kelas B</option><option>Kelas C</option>
+      <option>Kelas D</option><option>Kelas E</option>
+    </select>
+    <button id="start">Masuk Ujian</button>
+    <p class="small">Ini adalah website simulasi untuk menguji tampilan dan deteksi perpindahan aplikasi. Bukan portal ujian resmi.</p>
   </section>
 
-  <form class="card" id="quiz">
-    <div class="q">
-      <p><b>1. Berapa hasil 12 × 3?</b></p>
-      <label><input type="radio" name="q1" value="a">  30</label>
-      <label><input type="radio" name="q1" value="b">  36</label>
-      <label><input type="radio" name="q1" value="c">  42</label>
+  <section class="card hidden" id="exam">
+    <div class="top">
+      <div><h1>UTS Teori Akuntansi Keuangan</h1><div class="small" id="identity"></div></div>
+      <div class="pill" id="timer">30:00</div>
     </div>
-    <div class="q">
-      <p><b>2. Ibu kota Indonesia saat ini adalah ...</b></p>
-      <label><input type="radio" name="q2" value="a"> Bandung</label>
-      <label><input type="radio" name="q2" value="b"> Surabaya</label>
-      <label><input type="radio" name="q2" value="c"> Jakarta</label>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="qnum" id="qnum">SOAL 1 DARI 40</div>
+    <div class="question" id="question"></div>
+    <div id="options"></div>
+    <div class="actions">
+      <button class="secondary" id="prev">Sebelumnya</button>
+      <button id="next">Berikutnya</button>
     </div>
-    <button type="submit" id="submit">Kirim jawaban</button>
-    <div id="result" aria-live="polite"></div>
-  </form>
+    <div class="warning" id="warning">Peringatan perpindahan halaman: <b id="count">0</b> kali.</div>
+    <div id="lockbox" class="locked hidden"><b>Ujian terkunci.</b><br>Simulasi mendeteksi halaman kehilangan fokus atau disembunyikan. Jangan refresh. Silakan lapor kepada pengawas/dosen.</div>
+  </section>
+  <section class="card hidden" id="result">
+    <h1>Simulasi selesai</h1>
+    <p id="resulttext"></p>
+    <p class="small">Jawaban tersimpan hanya di perangkat/browser ini. Tidak dikirim ke dosen atau server.</p>
+  </section>
+  <footer>SIMULASI UJIAN • Bukan sistem ujian resmi</footer>
 </div>
 <script>
-let departures = 0;
-let finished = false;
-const statusBox = document.getElementById('status');
-const countBox = document.getElementById('count');
-
-function recordDeparture(reason) {
-  if (finished) return;
-  departures += 1;
-  countBox.textContent = departures;
-  statusBox.textContent = 'Peringatan: aktivitas meninggalkan halaman terdeteksi (' + reason + ').';
-  statusBox.classList.add('warn');
+const sample = [
+["Laporan yang menyajikan posisi aset, liabilitas, dan ekuitas pada tanggal tertentu disebut ...",["Laporan laba rugi","Laporan posisi keuangan","Laporan arus kas","Laporan perubahan ekuitas"],1],
+["Pendapatan pada umumnya diakui ketika ...",["Kas selalu diterima","Kewajiban kinerja telah dipenuhi","Perusahaan memesan barang","Periode akuntansi dimulai"],1],
+["Aset adalah ...",["Sumber daya ekonomik yang dikendalikan entitas","Seluruh pengeluaran perusahaan","Utang kepada pemilik","Pendapatan yang belum diterima"],0],
+["Persamaan dasar akuntansi adalah ...",["Aset = Liabilitas + Ekuitas","Aset = Pendapatan - Beban","Liabilitas = Aset + Ekuitas","Ekuitas = Aset + Liabilitas"],0],
+["Tujuan umum pelaporan keuangan adalah menyediakan informasi yang ...",["Berguna bagi pengambilan keputusan","Hanya untuk manajemen","Selalu menunjukkan laba","Menggantikan seluruh laporan internal"],0]
+];
+const questions = Array.from({length:40},(_,i)=> sample[i%sample.length]);
+let idx=0, answers={}, seconds=1800, departures=0, locked=false, timerId;
+const $=id=>document.getElementById(id);
+function render(){
+  $("qnum").textContent=`SOAL ${idx+1} DARI 40`;
+  $("question").textContent=questions[idx][0];
+  $("options").innerHTML="";
+  questions[idx][1].forEach((v,j)=>{
+    const lab=document.createElement("label");lab.className="option";
+    lab.innerHTML=`<input type="radio" name="answer" value="${j}" ${answers[idx]===j?"checked":""}><span>${String.fromCharCode(65+j)}. ${v}</span>`;
+    lab.querySelector("input").addEventListener("change",()=>answers[idx]=j);
+    $("options").appendChild(lab);
+  });
+  $("prev").disabled=idx===0;
+  $("next").textContent=idx===39?"Selesai":"Berikutnya";
+  $("bar").style.width=((idx+1)/40*100)+"%";
 }
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'hidden') recordDeparture('tab/aplikasi tidak terlihat');
-  else {
-    statusBox.textContent = 'Status: halaman kembali terlihat.';
-  }
-});
-window.addEventListener('blur', () => recordDeparture('jendela kehilangan fokus'));
-
-let seconds = 300;
-const timerBox = document.getElementById('timer');
-const tick = setInterval(() => {
-  if (finished) { clearInterval(tick); return; }
-  seconds--;
-  timerBox.textContent = String(Math.floor(seconds/60)).padStart(2,'0') + ':' + String(seconds%60).padStart(2,'0');
-  if (seconds <= 0) {
-    clearInterval(tick);
-    document.getElementById('submit').disabled = true;
-    document.getElementById('result').textContent = 'Waktu demo habis.';
-    finished = true;
-  }
-}, 1000);
-
-document.getElementById('quiz').addEventListener('submit', (e) => {
-  e.preventDefault();
-  if (finished) return;
-  const data = new FormData(e.target);
-  if (!data.has('q1') || !data.has('q2')) {
-    document.getElementById('result').textContent = 'Jawab kedua soal terlebih dahulu.';
-    return;
-  }
-  const score = (data.get('q1') === 'b' ? 1 : 0) + (data.get('q2') === 'c' ? 1 : 0);
-  document.getElementById('result').textContent = 'Skor demo: ' + score + '/2. Perpindahan halaman terdeteksi: ' + departures + ' kali.';
-  finished = true;
-  clearInterval(tick);
-  document.getElementById('submit').disabled = true;
-});
+function finish(){
+ clearInterval(timerId); $("exam").classList.add("hidden"); $("result").classList.remove("hidden");
+ $("resulttext").textContent=`Jawaban terisi: ${Object.keys(answers).length} dari 40 soal.`;
+}
+function tick(){
+ seconds--; let m=Math.floor(seconds/60),s=seconds%60;
+ $("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+ if(seconds<=0)finish();
+}
+$("start").onclick=()=>{
+ const n=$("nama").value.trim(), ni=$("nim").value.trim(), k=$("kelas").value;
+ if(!n||!ni||!k){alert("Lengkapi nama, NIM, dan kelas terlebih dahulu.");return;}
+ $("identity").textContent=`${n} • ${ni} • ${k}`;
+ $("landing").classList.add("hidden");$("exam").classList.remove("hidden");
+ render();timerId=setInterval(tick,1000);
+};
+$("prev").onclick=()=>{if(idx>0){idx--;render();}};
+$("next").onclick=()=>{if(idx<39){idx++;render();}else if(confirm("Akhiri simulasi ujian?"))finish();};
+function markDeparture(){
+ if(locked || $("exam").classList.contains("hidden"))return;
+ departures++;$("count").textContent=departures;
+ locked=true;$("lockbox").classList.remove("hidden");
+ $("prev").disabled=true;$("next").disabled=true;
+ document.querySelectorAll('input[name="answer"]').forEach(x=>x.disabled=true);
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)markDeparture();});
+window.addEventListener("blur",markDeparture);
 </script>
 </body>
 </html>
