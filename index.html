@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulasi UAS - 2 Soal</title>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; margin: 0; background: #f3f5f9; color: #1f2937; }
+  .wrap { max-width: 720px; margin: 28px auto; padding: 16px; }
+  .card { background: white; border-radius: 16px; padding: 22px; box-shadow: 0 5px 24px #17255412; margin-bottom: 16px; }
+  h1 { margin: 0 0 8px; font-size: 1.45rem; }
+  .muted { color: #64748b; }
+  .status { border-radius: 10px; padding: 12px; background: #ecfdf5; color: #166534; margin: 14px 0; }
+  .status.warn { background: #fff7ed; color: #9a3412; }
+  .q { padding: 16px 0; border-top: 1px solid #e5e7eb; }
+  label { display: block; padding: 8px 0; }
+  button { border: 0; border-radius: 10px; padding: 12px 18px; background: #2457d6; color: white; font-weight: 650; font-size: 1rem; }
+  button:disabled { opacity: .55; }
+  #result { font-weight: 650; margin-top: 12px; }
+  .small { font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="card">
+    <h1>Simulasi UAS</h1>
+    <div class="muted">Demo sederhana — 2 soal pilihan ganda</div>
+    <div class="status" id="status" role="status">Status: halaman sedang aktif.</div>
+    <p><b>Perpindahan halaman terdeteksi:</b> <span id="count">0</span> kali</p>
+    <p class="small muted">Demo ini mencatat saat browser melaporkan halaman menjadi tersembunyi atau kehilangan fokus. Ini bukan sistem pengawas yang sempurna.</p>
+    <p><b>Waktu tersisa:</b> <span id="timer">05:00</span></p>
+  </section>
+
+  <form class="card" id="quiz">
+    <div class="q">
+      <p><b>1. Berapa hasil 12 × 3?</b></p>
+      <label><input type="radio" name="q1" value="a">  30</label>
+      <label><input type="radio" name="q1" value="b">  36</label>
+      <label><input type="radio" name="q1" value="c">  42</label>
+    </div>
+    <div class="q">
+      <p><b>2. Ibu kota Indonesia saat ini adalah ...</b></p>
+      <label><input type="radio" name="q2" value="a"> Bandung</label>
+      <label><input type="radio" name="q2" value="b"> Surabaya</label>
+      <label><input type="radio" name="q2" value="c"> Jakarta</label>
+    </div>
+    <button type="submit" id="submit">Kirim jawaban</button>
+    <div id="result" aria-live="polite"></div>
+  </form>
+</div>
+<script>
+let departures = 0;
+let finished = false;
+const statusBox = document.getElementById('status');
+const countBox = document.getElementById('count');
+
+function recordDeparture(reason) {
+  if (finished) return;
+  departures += 1;
+  countBox.textContent = departures;
+  statusBox.textContent = 'Peringatan: aktivitas meninggalkan halaman terdeteksi (' + reason + ').';
+  statusBox.classList.add('warn');
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') recordDeparture('tab/aplikasi tidak terlihat');
+  else {
+    statusBox.textContent = 'Status: halaman kembali terlihat.';
+  }
+});
+window.addEventListener('blur', () => recordDeparture('jendela kehilangan fokus'));
+
+let seconds = 300;
+const timerBox = document.getElementById('timer');
+const tick = setInterval(() => {
+  if (finished) { clearInterval(tick); return; }
+  seconds--;
+  timerBox.textContent = String(Math.floor(seconds/60)).padStart(2,'0') + ':' + String(seconds%60).padStart(2,'0');
+  if (seconds <= 0) {
+    clearInterval(tick);
+    document.getElementById('submit').disabled = true;
+    document.getElementById('result').textContent = 'Waktu demo habis.';
+    finished = true;
+  }
+}, 1000);
+
+document.getElementById('quiz').addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (finished) return;
+  const data = new FormData(e.target);
+  if (!data.has('q1') || !data.has('q2')) {
+    document.getElementById('result').textContent = 'Jawab kedua soal terlebih dahulu.';
+    return;
+  }
+  const score = (data.get('q1') === 'b' ? 1 : 0) + (data.get('q2') === 'c' ? 1 : 0);
+  document.getElementById('result').textContent = 'Skor demo: ' + score + '/2. Perpindahan halaman terdeteksi: ' + departures + ' kali.';
+  finished = true;
+  clearInterval(tick);
+  document.getElementById('submit').disabled = true;
+});
+</script>
+</body>
+</html>
